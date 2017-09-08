@@ -25,3 +25,5 @@ _testmain.go
 *.gz
 dist
 build
+
+dns-gen
