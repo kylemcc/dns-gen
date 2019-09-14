@@ -237,7 +237,7 @@ func monitor(hostname string, interval time.Duration) {
 		addresses, err := lookup(hostname)
 		if err != nil {
 			if de, ok := err.(*net.DNSError); ok && de.Temporary() {
-				log.Printf("temporary error resolving hostname: %v. will retry...\n")
+				log.Printf("temporary error resolving hostname: %v. will retry...\n", hostname)
 				return err
 			} else {
 				log.Printf("error resolving hostname: %v\n", err)
