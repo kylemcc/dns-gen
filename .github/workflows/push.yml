@@ -16,7 +16,7 @@ jobs:
       uses: actions/docker/login@master
       env:
         DOCKER_PASSWORD: '${{ secrets.DOCKER_PASSWORD }}'
-        DOCKER_USERNAME: $GITHUB_ACTOR
+        DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
     - name: '[Github] Docker Login'
       uses: actions/docker/login@master
       env:
