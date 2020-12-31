@@ -12,37 +12,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: '[Dockerhub] Docker Login'
-      uses: actions/docker/login@master
-      env:
-        DOCKER_PASSWORD: '${{ secrets.DOCKER_PASSWORD }}'
-        DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-    - name: '[Github] Docker Login'
-      uses: actions/docker/login@master
-      env:
-        DOCKER_PASSWORD: '${{ secrets.GH_DOCKER_PASSWORD }}'
-        DOCKER_USERNAME: $GITHUB_ACTOR
-        DOCKER_REGISTRY_URL: docker.pkg.github.com
-    - name: Build Image
-      uses: actions/docker/cli@master
+    - name: build and push image
+      uses: docker/build-push-action@v1
       with:
-        args: build -t app .
-    - name: '[Dockerhub] Tag Image'
-      uses: actions/docker/tag@master
-      with:
-        args: --env app kylemcc/dns-gen
-    - name: '[Github] Tag Image'
-      uses: actions/docker/tag@master
-      with:
-        args: --env app docker.pkg.github.com/kylemcc/dns-gen/dns-gen
-    - name: '[Dockerhub] Push Image'
-      uses: actions/docker/cli@76ff57a
-      with:
-        args: push kylemcc/dns-gen
-    - name: '[Github] Push Image'
-      uses: actions/docker/cli@76ff57a
-      with:
-        args: push docker.pkg.github.com/kylemcc/dns-gen/dns-gen
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: kylemcc/dns-gen
+        add_git_labels: true
     - name: Send Slack Notification
       uses: kylemcc/actions/slack-webhook@master
       if: always()

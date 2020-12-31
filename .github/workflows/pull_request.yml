@@ -22,7 +22,7 @@ jobs:
           fi
     - name: Run Tests
       run: go test ./...
-    - name: Build Image
-      uses: actions/docker/cli@76ff57a
+    - name: Build image
+      uses: docker/build-push-action@v1
       with:
-        args: build -t tmp .
+        push: false
